@@ -35,7 +35,10 @@ export async function POST(req) {
       expiresIn: "1h",
     });
 
-    return new Response(JSON.stringify({ token }), { status: 200 });
+    // also return the user id
+    return new Response(JSON.stringify({ token, userId: user.user_id }), {
+      status: 200,
+    });
   } catch (error) {
     console.error(error);
     return new Response(JSON.stringify({ message: "An error occurred." }), {

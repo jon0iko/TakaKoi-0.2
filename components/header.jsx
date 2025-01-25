@@ -15,7 +15,7 @@ export function Header() {
   };
 
   return (
-    <header className="w-full py-4 px-6 bg-[#1a2b2b]">
+    <header className="w-full py-4 px-6 bg-[#223838]">
       <div className="container flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2">
           <CircleDollarSign className="h-8 w-8 text-white" />

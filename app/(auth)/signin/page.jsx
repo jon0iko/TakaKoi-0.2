@@ -25,7 +25,8 @@ export default function SignIn() {
     });
 
     if (response.ok) {
-      const { token } = await response.json();
+      const { token, userId } = await response.json();
+      localStorage.setItem("userId", userId);
       localStorage.setItem("authToken", token);
       setIsSignedIn(true);
       router.push("/dashboard");

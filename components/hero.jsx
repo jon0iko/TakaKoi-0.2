@@ -23,7 +23,7 @@ export function Hero() {
           className="bg-[#d5c4a1] text-black hover:bg-[#d5c4a1]/90"
           size="lg"
         >
-          <Link href={isSignedIn ? "/dashboard" : "/signin"}>Get Started Today</Link>
+          <Link href={isSignedIn ? "/dashboard" : "/signin"}>Get Started</Link>
         </Button>
       </div>
     </section>
