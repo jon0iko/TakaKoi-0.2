@@ -36,7 +36,7 @@ export async function POST(req) {
     });
 
     // also return the user id
-    return new Response(JSON.stringify({ token, userId: user.user_id }), {
+    return new Response(JSON.stringify({ token, userId: user.user_id, username: user.username }), {
       status: 200,
     });
   } catch (error) {

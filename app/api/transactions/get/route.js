@@ -34,7 +34,7 @@ export async function POST(req) {
     `;
 
     const result = await db(query);
-    console.log(result);
+    // console.log(result);
     // Return the fetched transactions
     return new Response(JSON.stringify(result), { status: 200 });
   } catch (error) {

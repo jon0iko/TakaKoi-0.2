@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { use, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/AuthContext";
 
@@ -25,9 +25,11 @@ export default function SignIn() {
     });
 
     if (response.ok) {
-      const { token, userId } = await response.json();
+      const { token, userId, username } = await response.json();
       localStorage.setItem("userId", userId);
       localStorage.setItem("authToken", token);
+      localStorage.setItem("username", username);
+      localStorage.setItem("isSignedIn", true);
       setIsSignedIn(true);
       router.push("/dashboard");
     } else {
