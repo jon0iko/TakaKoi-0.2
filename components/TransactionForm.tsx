@@ -40,7 +40,7 @@ const formSchema = z.object({
   }),
 });
 
-export function AddTransactionForm({ onClose }) {
+export function AddTransactionForm({ onClose, categoriesList }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -58,29 +58,8 @@ export function AddTransactionForm({ onClose }) {
 
   // Fetch categories from the server
   useEffect(() => {
-    async function fetchCategories() {
-      try {
-        const response = await fetch("/api/categories"); // API endpoint to fetch categories
-        const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.message || "Failed to fetch categories.");
-        }
-
-        setCategories(data);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-        toast({
-          title: "Error",
-          description: "Failed to fetch categories.",
-          variant: "destructive",
-          className: "bg-red-500 text-white",
-        });
-      }
-    }
-
-    fetchCategories();
-  }, [toast]);
+    setCategories(categoriesList);
+  }, [categoriesList]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true);

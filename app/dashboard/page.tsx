@@ -18,7 +18,7 @@ export default function Dashboard() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [transactions, setTransactions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [sortOrder, setSortOrder] = useState("desc");
+  const [sortOrder, setSortOrder] = useState("recent");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [dateRange, setDateRange] = useState();
   const userId = localStorage.getItem("userId");
@@ -33,7 +33,7 @@ export default function Dashboard() {
     setEditDialogOpen(true);
   };
 
-  const handleEditClose = async (updatedTransaction) => {
+  const handleEditClose = async () => {
       setEditDialogOpen(false);
       await fetchTransactions();
   };
@@ -148,18 +148,22 @@ export default function Dashboard() {
 
   // Filter and sort transactions
   const filteredTransactions = transactions
-    .filter((transaction) => {
-      if (selectedCategory !== "all" && transaction.category !== selectedCategory) return false;
-      if (dateRange?.from && dateRange?.to) {
-        const transactionDate = new Date(transaction.date);
-        return transactionDate >= dateRange.from && transactionDate <= dateRange.to;
-      }
-      return true;
-    })
-    .sort((a, b) => {
-      const multiplier = sortOrder === "asc" ? 1 : -1;
-      return (a.amount - b.amount) * multiplier;
-    });
+  .filter((transaction) => {
+    if (selectedCategory !== "all" && transaction.category !== selectedCategory) return false;
+    if (dateRange?.from && dateRange?.to) {
+      const transactionDate = new Date(transaction.date);
+      return transactionDate >= dateRange.from && transactionDate <= dateRange.to;
+    }
+    if (sortOrder === "income") return transaction.type === "income"; // ✅ Show only incomes
+    if (sortOrder === "expense") return transaction.type === "expense"; // ✅ Show only expenses
+    return true;
+  })
+  .sort((a, b) => {
+    if (sortOrder === "asc") return a.amount - b.amount; // Low to High
+    if (sortOrder === "desc") return b.amount - a.amount; // High to Low
+    if (sortOrder === "recent") return new Date(b.date) - new Date(a.date); // ✅ Default: Sort by Date (Recent)
+    return 0;
+  });
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100 p-6 space-y-6">
@@ -219,11 +223,14 @@ export default function Dashboard() {
 
           <Select value={sortOrder} onValueChange={(value) => setSortOrder(value)}>
             <SelectTrigger className="w-[180px] bg-gray-800 border-gray-700 text-gray-100">
-              <SelectValue placeholder="Sort by amount" />
+              <SelectValue placeholder="Sort by" />
             </SelectTrigger>
             <SelectContent className="bg-gray-800 border-gray-700 text-white">
+              <SelectItem value="recent">Recent</SelectItem> {/* ✅ Default */}
               <SelectItem value="asc">Amount (Low to High)</SelectItem>
               <SelectItem value="desc">Amount (High to Low)</SelectItem>
+              <SelectItem value="income">Incomes</SelectItem>
+              <SelectItem value="expense">Expenses</SelectItem>
             </SelectContent>
           </Select>
           <Button
@@ -250,7 +257,7 @@ export default function Dashboard() {
             <DialogHeader>
               <DialogTitle className="text-gray-100">Add New Transaction</DialogTitle>
             </DialogHeader>
-            <AddTransactionForm onClose={handleClose} />
+            <AddTransactionForm onClose={handleClose} categoriesList={categories}/>
           </DialogContent>
         </Dialog>
       </div>
