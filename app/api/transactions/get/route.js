@@ -13,13 +13,15 @@ export async function POST(req) {
     }
 
     // Directly include user_id in the SQL query (be cautious about SQL injection risks)
+    // select date in the format of 'YYYY-MM-DD'
     const query = `
       SELECT 
         t.transaction_id AS id,
         t.description,
         t.amount,
         t.type,
-        t.date,
+        TO_CHAR(t.date, 'YYYY-MM-DD') AS date,
+        t.category_id,
         c.category_name AS category
       FROM 
         Transactions t

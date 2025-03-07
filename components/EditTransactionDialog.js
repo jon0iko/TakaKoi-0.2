@@ -23,8 +23,8 @@ export default function EditTransactionForm({ transaction, onClose, categoriesLi
   const [formData, setFormData] = useState({
     description: transaction.description || "",
     amount: transaction.amount?.toString() || "",
-    category: transaction.category,
-    date: transaction.date || new Date().toISOString().split("T")[0],
+    category: transaction.category_id || "",
+    date: transaction.date,
   });
 
 
