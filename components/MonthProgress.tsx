@@ -38,7 +38,7 @@ export default function MonthProgress() {
         </div>
       </div>
       {/* Month Title */}
-      <span className="text-sm font-medium text-gray-300 mb-2">Month: {currentMonth}</span>
+      <span className="text-sm font-medium text-gray-300 mb-2">{currentMonth}</span>
 
     </div>
   );

@@ -3,7 +3,7 @@ import { db } from "@/lib/actions";
 export async function GET(req) {
   try {
     const query = `
-      SELECT TO_CHAR(NOW() AT TIME ZONE 'GMT+6', 'DD FMMonth, FMDay') AS current_date;
+      SELECT TO_CHAR(NOW() AT TIME ZONE 'Asia/Dhaka', 'DD FMMonth, FMDay') AS current_date;
     `;
 
     const result = await db(query);

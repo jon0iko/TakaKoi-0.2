@@ -205,6 +205,7 @@ export default function Dashboard() {
         </div>
 
         <MonthProgress />
+        
         <Select value={view} onValueChange={setView}>
           <SelectTrigger className="w-[180px] bg-gray-800 border-gray-700 text-gray-100 flex items-center space-x-2">
             <Filter className="h-4 w-4 text-gray-400" />
